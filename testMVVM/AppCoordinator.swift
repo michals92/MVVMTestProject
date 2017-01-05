@@ -10,7 +10,7 @@ import UIKit
 
 /// Main entry point to the app
 class AppCoordinator: Coordinator {
- 
+
     let window: UIWindow
 
     init(window: UIWindow) {
@@ -21,7 +21,7 @@ class AppCoordinator: Coordinator {
         // Login state detection
         let loggedIn = true
 
-        if (loggedIn) {
+        if loggedIn {
             showSeasons()
         } else {
             showAuth()

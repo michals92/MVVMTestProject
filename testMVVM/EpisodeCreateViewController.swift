@@ -15,7 +15,7 @@ class EpisodeCreateViewController: UIViewController {
 
     var viewModel: EpisodeCreateViewModel!
 
-    @IBOutlet weak var nameTextField:  UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -236,6 +236,7 @@
 				94924C091D82C79D00CA286E /* Resources */,
 				0DFE33EC3F4DD1385F8E2307 /* [CP] Embed Pods Frameworks */,
 				4035170A0F95D1F1FEE1C430 /* [CP] Copy Pods Resources */,
+				716672D41E1E903C0077EBF4 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -403,6 +404,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MVVMTestProject/Pods-MVVMTestProject-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		716672D41E1E903C0077EBF4 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		7A3822A4196FEFADBFBD84E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

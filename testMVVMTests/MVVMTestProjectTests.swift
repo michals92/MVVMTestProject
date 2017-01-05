@@ -37,22 +37,20 @@ class Test1SeasonServices: SeasonsAPIServicing {
 }
 
 class MVVMTestProjectTests: XCTestCase {
-    
+
     let services = Test1SeasonServices()
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    
+
     func testLoadData() {
-    
         let vm = SeasonsTableViewModel(seasonsServices: services)
 
         let _ = vm.load().start { observer in
@@ -63,7 +61,6 @@ class MVVMTestProjectTests: XCTestCase {
             XCTAssert(vm.seasonForIndexPath(IndexPath(row: 0, section: 0)).numberOfEpisodes() == mockupSeasons[0].episodes.value.count, "season has wrong number of episodes")
         }
     }
-    
 
   /*  func getEpisode() -> Promise<EpisodeDetailViewModel> {
         let vm  = SeasonsTableViewModel(seasonsServices: services)
@@ -74,15 +71,15 @@ class MVVMTestProjectTests: XCTestCase {
 
 
     }
-    
+
     func testGetEpisode() {
-        
+
         _ = getEpisode().then { (episodeViewModel) -> Void in
              XCTAssert(episodeViewModel.title.value == "episode1" , "s01e01 is missing")
         }
 
     }
-    
+
     func testPlayEpisode() {
 
         _ = getEpisode().then { (episodeViewModel) -> Void in
@@ -92,7 +89,7 @@ class MVVMTestProjectTests: XCTestCase {
         }
 
     }
-    
+
     func testEpisodeWasPlayed() {
 
 
@@ -103,11 +100,8 @@ class MVVMTestProjectTests: XCTestCase {
             XCTAssert(episodeViewModel.played, "should be played")
 
         }
-
-
-        
     }
- 
+
     func testPlayAndStopEpisode() {
 
         _ = getEpisode().then { (episodeViewModel) -> Void in
@@ -117,9 +111,7 @@ class MVVMTestProjectTests: XCTestCase {
 
             episodeViewModel.stop()
             XCTAssert(!episodeViewModel.isPlaying.value, "episode should be set as played after play and stop")
-            
         }
-
     }
 
     func testAddEpisodeWithInvalidName() {

@@ -10,22 +10,22 @@ import Foundation
 import ReactiveSwift
 
 class SeasonDetailViewModel {
-    
-    fileprivate var model : Season
+
+    fileprivate var model: Season
     fileprivate var service: SeasonsAPIServicing
 
     let title: MutableProperty<String> = MutableProperty("")
-    fileprivate var episodes : MutableProperty<[EpisodeDetailViewModel]> = MutableProperty([])
-    
+    fileprivate var episodes: MutableProperty<[EpisodeDetailViewModel]> = MutableProperty([])
+
     init(model: Season, seasonServices: SeasonsAPIServicing) {
         self.model = model
         self.service = seasonServices
         configure()
     }
-    
+
     func configure() {
         title <~ model.name
-        episodes <~ model.episodes.map{ episodes in
+        episodes <~ model.episodes.map { episodes in
             var episodesViewModel: [EpisodeDetailViewModel] = []
             for episode in episodes {
                 episodesViewModel.append(EpisodeDetailViewModel(model: episode))
@@ -33,11 +33,11 @@ class SeasonDetailViewModel {
             return episodesViewModel
         }
     }
-    
+
     func numberOfEpisodes() -> Int {
         return episodes.value.count
     }
-    
+
     func getEpisode(_ indexPath: IndexPath) -> EpisodeDetailViewModel {
         return episodes.value[(indexPath as NSIndexPath).row]
     }
@@ -46,7 +46,7 @@ class SeasonDetailViewModel {
         episodes.value[(indexPath as NSIndexPath).row].play()
         print("playing \(episodes.value[(indexPath as NSIndexPath).row].title)")
     }
-    
+
     func stopPlayingEpisode(_ indexPath: IndexPath) {
         episodes.value[(indexPath as NSIndexPath).row].stop()
         print("stop playing \(episodes.value[(indexPath as NSIndexPath).row].title) played \(episodes.value[(indexPath as NSIndexPath).row].played)")

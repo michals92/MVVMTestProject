@@ -1,4 +1,3 @@
-
 //
 //  SeasonDetailViewController.swift
 //  MVVMTestProject
@@ -31,11 +30,11 @@ class SeasonDetailViewController: BaseController, Coordinated {
 }
 
 extension SeasonDetailViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfEpisodes()
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ObservingTableViewCell(style: .default, reuseIdentifier: nil)
         cell.configure(viewModel.getEpisode(indexPath))
@@ -44,14 +43,12 @@ extension SeasonDetailViewController: UITableViewDataSource {
 }
 
 extension SeasonDetailViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.playEpisode(indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         viewModel.stopPlayingEpisode(indexPath)
     }
 }
-
-

@@ -16,7 +16,7 @@ class EpisodeCreateViewModel {
     }
 
     fileprivate var seasonService: SeasonsAPIServicing
-    fileprivate var season : Season
+    fileprivate var season: Season
 
     var name: MutableProperty<String?> = MutableProperty(nil)
 

@@ -10,11 +10,11 @@ import Foundation
 import ReactiveSwift
 
 class EpisodeDetailViewModel {
-    
+
     fileprivate var model: Episode
 
     var title: MutableProperty<String?> = MutableProperty(nil)
-    let isPlaying : MutableProperty<Bool> = MutableProperty(false)
+    let isPlaying: MutableProperty<Bool> = MutableProperty(false)
 
     var played: Bool {
         return model.played
@@ -31,15 +31,13 @@ class EpisodeDetailViewModel {
             isPlaying.value = true
         }
     }
-    
+
     func stop() {
         isPlaying.value = false
     }
-    
+
     func configure() {
         title.value = model.name.value
     }
 
 }
-
-

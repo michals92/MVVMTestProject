@@ -12,7 +12,7 @@ class SeasonDetailCoordinator: Coordinator {
 
     let navigationController: UINavigationController?
     let viewModel: SeasonDetailViewModel
-    
+
     var viewController: SeasonDetailViewController?
 
     /// Used for initialization without segue
@@ -42,7 +42,7 @@ class SeasonDetailCoordinator: Coordinator {
         if let navigation = source.navigationController, let destination = destination as? UINavigationController, let viewController = destination.topViewController as? EpisodeCreateViewController, let viewModel = sender as? SeasonDetailViewModel, identifier == "createSegue" {
             let coordinator = EpisodeCreateCoordinator(navigationController: navigation, wrapperNavigationController: destination, viewController: viewController, viewModel: viewModel)
             coordinator.start()
-        }        
+        }
     }
 
     func showCreateEpisode(from viewModel: SeasonDetailViewModel) {

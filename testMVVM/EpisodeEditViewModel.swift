@@ -15,10 +15,10 @@ class EpisodeEditViewModel {
         case NothingToUpdate
     }
 
-    fileprivate var model : Episode
-    fileprivate let service : SeasonsAPIServicing!
+    fileprivate var model: Episode
+    fileprivate let service: SeasonsAPIServicing!
 
-    var newTitle : String? {
+    var newTitle: String? {
         didSet {
             isSomethingToUpdate.value = true
         }

@@ -11,7 +11,6 @@ import UIKit
 class SeasonsTableCoordinator: Coordinator {
 
     let window: UIWindow
-    
     var viewController: SeasonsViewController?
 
     init(window: UIWindow) {
@@ -19,7 +18,9 @@ class SeasonsTableCoordinator: Coordinator {
     }
 
     func start() {
-        let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as! UINavigationController
+        guard let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UINavigationController else {
+            fatalError("failed to instantiate nav controller")
+        }
         viewController = navigationController.topViewController as? SeasonsViewController
         viewController?.viewModel = SeasonsTableViewModel(seasonsServices: TestSeasonsService())
         viewController?.coordinator = self
@@ -36,9 +37,8 @@ class SeasonsTableCoordinator: Coordinator {
     func showEpisodes(from viewModel: SeasonDetailViewModel) {
         viewController?.performSegue(withIdentifier: "showEpisodes", sender: viewModel)
 
-
-        // ** demonstration of a second option of VC initialization -- without use of a segue ** 
-        //let destinationCoordinator = SeasonDetailCoordinator(navigationController: viewController!.navigationController!, viewModel:viewModel)
-        //destinationCoordinator.start()
+        /*  demonstration of a second option of VC initialization -- without use of a segue **
+        let destinationCoordinator = SeasonDetailCoordinator(navigationController: viewController!.navigationController!, viewModel:viewModel)
+        destinationCoordinator.start()*/
     }
 }

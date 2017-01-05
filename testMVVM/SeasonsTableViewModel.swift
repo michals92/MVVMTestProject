@@ -11,15 +11,15 @@ import ReactiveSwift
 
 class SeasonsTableViewModel {
 
-    let seasonsServices : SeasonsAPIServicing
+    let seasonsServices: SeasonsAPIServicing
     let seasons: MutableProperty<[SeasonDetailViewModel]> = MutableProperty([])
-    
+
     init(seasonsServices: SeasonsAPIServicing) {
         self.seasonsServices = seasonsServices
     }
 
     @discardableResult
-    func load() -> SignalProducer<[SeasonDetailViewModel], MyError>  {
+    func load() -> SignalProducer<[SeasonDetailViewModel], MyError> {
 
         return SignalProducer { observer, _ in
             var seasonsViewModel: [SeasonDetailViewModel] = []
@@ -41,7 +41,7 @@ class SeasonsTableViewModel {
 
         return seasons.value[indexPath.row]
     }
-    
+
     func numberOfSeasons() -> Int {
         return seasons.value.count
     }

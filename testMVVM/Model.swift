@@ -10,7 +10,7 @@ import Foundation
 import ReactiveSwift
 
 class Season {
-    
+
     var name: MutableProperty<String>
     var episodes: MutableProperty<[Episode]>
 
@@ -34,5 +34,5 @@ class Episode {
         self.id = id
         self.name = MutableProperty(nil)
     }
-    
+
 }
