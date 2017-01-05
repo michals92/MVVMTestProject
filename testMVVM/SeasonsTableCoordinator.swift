@@ -21,7 +21,7 @@ class SeasonsTableCoordinator: Coordinator {
     func start() {
         let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as! UINavigationController
         viewController = navigationController.topViewController as? SeasonsViewController
-        viewController?.viewModel = SeasonsTableViewModel(seasonsServices: TestSeasonsServices())
+        viewController?.viewModel = SeasonsTableViewModel(seasonsServices: TestSeasonsService())
         viewController?.coordinator = self
         window.rootViewController = navigationController
     }

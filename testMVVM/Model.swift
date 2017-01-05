@@ -7,30 +7,32 @@
 //
 
 import Foundation
+import ReactiveSwift
 
 class Season {
     
-    var name: String? //should be observable
-    var episodes: [Episode] //should be observable
+    var name: MutableProperty<String>
+    var episodes: MutableProperty<[Episode]>
 
     init(name: String, episodes: [Episode]) {
-        self.name = name
-        self.episodes = episodes
+        self.name = MutableProperty(name)
+        self.episodes = MutableProperty(episodes)
     }
 }
 
 class Episode {
 
     var id: String?
-    var name: String? //should be observable
-    var played: Bool = false //should be observable
-    
+    var name: MutableProperty<String?>
+    var played: Bool = false
+
     init(name: String) {
-        self.name = name
+        self.name = MutableProperty(name)
     }
 
     init(withId id: String) {
         self.id = id
+        self.name = MutableProperty(nil)
     }
     
 }

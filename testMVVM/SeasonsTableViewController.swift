@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Bond
 
 class SeasonsViewController: BaseController, Coordinated {
 
@@ -18,10 +17,11 @@ class SeasonsViewController: BaseController, Coordinated {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = viewModel.load().then { (_) -> Void in
-            self.tableView.reloadData()
+        let _ = viewModel.load().start { observer in
+            if let _ = observer.value {
+                self.tableView.reloadData()
+            }
         }
-
     }
 
     func getCoordinator() -> Coordinator? {

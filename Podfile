@@ -6,12 +6,10 @@ target 'MVVMTestProject' do
   use_frameworks!
 
   # Pods for MVVMTestProject
-  pod 'Bond', '~> 5.0-beta2'
-  pod "PromiseKit", "~> 4.0"
+  pod 'ReactiveCocoa', '5.0.0-rc.1'
   target 'MVVMTestProjectTests' do
     inherit! :search_paths
-    pod 'Bond', '~> 5.0-beta2'
-    pod "PromiseKit", "~> 4.0"
+    pod 'ReactiveCocoa', '5.0.0-rc.1'
     # Pods for testing
 
   end

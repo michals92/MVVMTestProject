@@ -7,37 +7,39 @@
 //
 
 import Foundation
-import PromiseKit
+import ReactiveSwift
 
-
-protocol SeasonsServices {    
-    func seasons() -> Promise<[Season]>
-    func create(episode:Episode, inSeason season: Season) -> Promise<Episode>
-    func update(episode: Episode, name: String?) -> Promise<Episode>
+public enum MyError: Error {
+    case noConnection
+    case error(withMessage: String)
 }
 
 
-class TestSeasonsServices: SeasonsServices {
+protocol SeasonsAPIServicing {
+    var seasons: SignalProducer<[Season], MyError> { get }
+    func create(episode: Episode, inSeason season: Season) -> SignalProducer<Episode, MyError>
+    func update(episode: Episode, name: String?) -> SignalProducer<Episode, MyError>
+}
+
+class TestSeasonsService: SeasonsAPIServicing {
     
-    func seasons() -> Promise<[Season]> {
-        return Promise { fulfill, reject in
-            fulfill([Season(name: "season 1", episodes: [Episode(name:"aa"), Episode(name:"ab")])])
-        }
-
+    let seasons = SignalProducer<[Season], MyError> { observer, _ in
+        observer.send(value: [Season(name: "season 1", episodes: [Episode(name:"aa"), Episode(name:"ab")])])
     }
-
-    func create(episode:Episode, inSeason season: Season) -> Promise<Episode> {
-        return Promise { fulfill, reject in
-            season.episodes.append(episode)
-            fulfill(episode)
+    
+    func create(episode: Episode, inSeason season: Season) -> SignalProducer<Episode, MyError> {
+        return SignalProducer { observer, _ in
+            season.episodes.value.append(episode)
+            observer.send(value: episode)
+            observer.sendCompleted()
         }
     }
-
-    func update(episode: Episode, name: String?) -> Promise<Episode> {
-        return Promise { fulfill, reject in
-            episode.name = name
-            fulfill(episode)
+    
+    func update(episode: Episode, name: String?) -> SignalProducer<Episode, MyError> {
+        return SignalProducer { observer, _ in
+            episode.name.value = name
+            observer.send(value: episode)
+            observer.sendCompleted()
         }
     }
-
 }

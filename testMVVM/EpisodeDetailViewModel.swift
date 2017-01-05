@@ -7,20 +7,18 @@
 //
 
 import Foundation
-import Bond
+import ReactiveSwift
 
 class EpisodeDetailViewModel {
-
     
     fileprivate var model: Episode
 
-    let title: Observable<String> = Observable("")
-    let isPlaying : Observable<Bool> = Observable(false)
+    var title: MutableProperty<String?> = MutableProperty(nil)
+    let isPlaying : MutableProperty<Bool> = MutableProperty(false)
 
     var played: Bool {
         return model.played
     }
-
 
     init(model: Episode) {
         self.model = model
@@ -38,11 +36,8 @@ class EpisodeDetailViewModel {
         isPlaying.value = false
     }
     
-    
-    
     func configure() {
-        title.value = model.name ?? ""
-
+        title.value = model.name.value
     }
 
 }
