@@ -7,27 +7,31 @@
 //
 
 import Foundation
-import Bond
-import PromiseKit
-import ReactiveKit
+import ReactiveSwift
 
 class SeasonDetailViewModel {
     
     fileprivate var model : Season
-    fileprivate var service: SeasonsServices
-    let title : Observable<String> = Observable("")
+    fileprivate var service: SeasonsAPIServicing
 
-    fileprivate var episodes : Observable<[EpisodeDetailViewModel]> = Observable([])
+    let title: MutableProperty<String> = MutableProperty("")
+    fileprivate var episodes : MutableProperty<[EpisodeDetailViewModel]> = MutableProperty([])
     
-    init(model: Season, seasonServices: SeasonsServices) {
+    init(model: Season, seasonServices: SeasonsAPIServicing) {
         self.model = model
         self.service = seasonServices
         configure()
     }
     
     func configure() {
-        title.value = model.name ?? ""
-        episodes.value = model.episodes.map(EpisodeDetailViewModel.init)
+        title <~ model.name
+        episodes <~ model.episodes.map{ episodes in
+            var episodesViewModel: [EpisodeDetailViewModel] = []
+            for episode in episodes {
+                episodesViewModel.append(EpisodeDetailViewModel(model: episode))
+            }
+            return episodesViewModel
+        }
     }
     
     func numberOfEpisodes() -> Int {
@@ -50,13 +54,13 @@ class SeasonDetailViewModel {
 
     func setTitle(title: String) {
         self.title.value = title
-        self.model.name = title
+        self.model.name.value = title
     }
 }
 
 extension EpisodeCreateViewModel {
 
     convenience init(seasonDetailViewModel: SeasonDetailViewModel) {
-        self.init(season: seasonDetailViewModel.model, seasonService: TestSeasonsServices())
+        self.init(season: seasonDetailViewModel.model, seasonService: TestSeasonsService())
     }
 }
