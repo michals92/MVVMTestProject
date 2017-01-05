@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import ReactiveSwift
+import ReactiveCocoa
 
 class EpisodeCreateViewController: UIViewController {
 
@@ -17,14 +19,15 @@ class EpisodeCreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.name <~ nameTextField.reactive.continuousTextValues
     }
 
     @IBAction func save() {
-
-        _ = viewModel.save().then { _ -> Void in
+        _ = viewModel.save().start { [unowned self] event in
+            if let error = event.error {
+                print(error)
+            }
             self.dismiss(animated: true, completion: nil)
-            }.catch { err in
-            print(err)
         }
     }
 
