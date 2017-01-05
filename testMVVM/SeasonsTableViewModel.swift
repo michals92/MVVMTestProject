@@ -7,38 +7,35 @@
 //
 
 import Foundation
-import Bond
-import PromiseKit
+import ReactiveSwift
 
 class SeasonsTableViewModel {
 
-    let seasonsServices : SeasonsServices
-    let seasons: Observable<[SeasonDetailViewModel]> = Observable([])
+    let seasonsServices : SeasonsAPIServicing
+    let seasons: MutableProperty<[SeasonDetailViewModel]> = MutableProperty([])
     
-    init(seasonsServices: SeasonsServices) {
+    init(seasonsServices: SeasonsAPIServicing) {
         self.seasonsServices = seasonsServices
     }
 
     @discardableResult
-    func load() -> Promise<[SeasonDetailViewModel]>  {
+    func load() -> SignalProducer<[SeasonDetailViewModel], MyError>  {
 
-        return Promise { fulfill, reject in
+        return SignalProducer { observer, _ in
+            var seasonsViewModel: [SeasonDetailViewModel] = []
 
-            seasonsServices.seasons().then { seasons -> Void in
-
-                self.seasons.value = seasons.map {
-                    SeasonDetailViewModel(model: $0, seasonServices: self.seasonsServices)
+            self.seasonsServices.seasons.start { seasons in
+                if let seasonsValue = seasons.value {
+                    for season in seasonsValue {
+                        seasonsViewModel.append(SeasonDetailViewModel(model: season, seasonServices: self.seasonsServices))
+                    }
+                    self.seasons.value = seasonsViewModel
+                    observer.send(value: seasonsViewModel)
+                    observer.sendCompleted()
                 }
-                fulfill(self.seasons.value)
-
-            }.catch { err in
-                reject(err)
             }
-
         }
     }
-
-
 
     func seasonForIndexPath(_ indexPath: IndexPath) -> SeasonDetailViewModel {
 

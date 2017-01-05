@@ -24,6 +24,10 @@ class SeasonDetailViewController: BaseController, Coordinated {
     @IBAction func handleCreateEpisodeButtonTap() {
         coordinator?.showCreateEpisode(from: viewModel)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 }
 
 extension SeasonDetailViewController: UITableViewDataSource {
