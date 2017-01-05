@@ -8,20 +8,14 @@
 
 import Foundation
 import UIKit
-import Bond
-import ReactiveKit
+import ReactiveCocoa
+import ReactiveSwift
 
 class ObservingTableViewCell: UITableViewCell {
 
-
-    var onReuseBag: DisposeBag = DisposeBag()
-
     override func prepareForReuse() {
         super.prepareForReuse()
-        onReuseBag.dispose()
     }
-
-
 }
 
 extension ObservingTableViewCell {
@@ -29,7 +23,7 @@ extension ObservingTableViewCell {
     func configure(_ viewModel: SeasonDetailViewModel) {
 
         if let label = textLabel {
-            viewModel.title.bind(to: label.bnd_text).disposeIn(onReuseBag)
+            label.reactive.text <~ viewModel.title
         }
     }
 }
@@ -37,11 +31,8 @@ extension ObservingTableViewCell {
 extension ObservingTableViewCell {
 
     func configure(_ viewModel: EpisodeDetailViewModel) {
-
         if let label = textLabel {
-            viewModel.title.bind(to: label.bnd_text).disposeIn(onReuseBag)
+            label.reactive.text <~ viewModel.title
         }
-
-
     }
 }
