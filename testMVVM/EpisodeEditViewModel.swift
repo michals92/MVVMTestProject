@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import PromiseKit
-import Bond
+import ReactiveSwift
 
 class EpisodeEditViewModel {
 
@@ -17,7 +16,7 @@ class EpisodeEditViewModel {
     }
 
     fileprivate var model : Episode
-    fileprivate let service : SeasonsServices!
+    fileprivate let service : SeasonsAPIServicing!
 
     var newTitle : String? {
         didSet {
@@ -25,32 +24,30 @@ class EpisodeEditViewModel {
         }
     }
 
-    let isSomethingToUpdate = Observable(false)
+    let isSomethingToUpdate = MutableProperty(false)
 
-    init(id: String, service: SeasonsServices) {
+    init(id: String, service: SeasonsAPIServicing) {
         model = Episode(withId: id)
         self.service = service
     }
 
-    init(model: Episode, service: SeasonsServices) {
+    init(model: Episode, service: SeasonsAPIServicing) {
         self.model = model
         self.service = service
     }
 
-    func save() -> Promise<Void> {
+    func save() -> SignalProducer<Episode, EpisodeEditViewModelError> {
 
-        return firstly { _ -> Promise<Episode> in
-            if !isSomethingToUpdate.value {
-                throw EpisodeEditViewModelError.NothingToUpdate
+        return SignalProducer { [unowned self] observer, _ in
+            if !self.isSomethingToUpdate.value {
+                observer.send(error: .NothingToUpdate)
             }
 
-            return service.update(episode: model, name: newTitle)
-
-            }.then { episode -> Void in
-
+            self.service.update(episode: self.model, name: self.newTitle).start { createObserver in
+                if let episode = createObserver.value {
+                    observer.send(value: episode)
+                }
+            }
         }
-
     }
-
-
 }

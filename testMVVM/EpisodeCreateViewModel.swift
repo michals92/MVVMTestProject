@@ -7,36 +7,36 @@
 //
 
 import Foundation
-import PromiseKit
+import ReactiveSwift
 
 class EpisodeCreateViewModel {
 
-    enum EpisodeCreate: Error {
+    enum EpisodeError: Error {
        case WrongName
     }
 
-    fileprivate var seasonService: SeasonsServices
+    fileprivate var seasonService: SeasonsAPIServicing
     fileprivate var season : Season
 
-    var name: String?
+    var name: MutableProperty<String?> = MutableProperty(nil)
 
-    init(season: Season, seasonService: SeasonsServices) {
+    init(season: Season, seasonService: SeasonsAPIServicing) {
         self.season = season
         self.seasonService = seasonService
     }
 
-    func save() -> Promise<Void> {
-
-        return firstly { _ -> Promise<Episode> in
-            guard let name = name, name != "" else {
-                throw EpisodeCreate.WrongName
+    func save() -> SignalProducer<Void, EpisodeError> {
+        return SignalProducer { [unowned self] observer, _ in
+            guard let name = self.name.value, name != "" else {
+                observer.send(error: .WrongName)
+                return
             }
 
-            return seasonService.create(episode: Episode(name: name), inSeason: season)
-            }.then { episode -> Void in
-         
+            self.seasonService.create(episode: Episode(name: name), inSeason: self.season).start { createObserver in
+                if let _ = createObserver.value {
+                    observer.send(value: Void())
+                }
+            }
         }
-
     }
-
 }
